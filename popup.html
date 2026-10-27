@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>There he goes</title>
+<style>
+  :root {
+    --bg: #2b2433; --panel: #352c40; --line: #4a3f58; --bone: #efe6d8; --muted: #b3a7c0;
+    --ember: #e0a64a; --ember-d: #b97f26; --ink: #241d2b;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; width: 330px; background: var(--bg); color: var(--bone); font: 13px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { padding: 18px 18px 14px; }
+  h1 { margin: 0; font: italic 600 27px/1.1 Georgia, "Times New Roman", serif; letter-spacing: .2px;
+       -webkit-mask-image: linear-gradient(90deg, #000 0 62%, rgba(0,0,0,.55) 80%, rgba(0,0,0,.12) 100%);
+               mask-image: linear-gradient(90deg, #000 0 62%, rgba(0,0,0,.55) 80%, rgba(0,0,0,.12) 100%); }
+  .sub { margin: 4px 0 16px; color: var(--muted); }
+  .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); }
+  .row.col { display: block; }
+  .row label.t { font-weight: 600; }
+  .hint { color: var(--muted); font-size: 12px; margin-top: 2px; }
+  .head { display: flex; justify-content: space-between; align-items: baseline; }
+  output { color: var(--ember); font-variant-numeric: tabular-nums; }
+  input[type=range] { width: 100%; margin: 8px 0 0; accent-color: var(--ember); }
+  select { background: var(--panel); color: var(--bone); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; font: inherit; }
+  .switch { position: relative; width: 42px; height: 24px; flex: none; }
+  .switch input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; z-index: 1; }
+  .switch span { position: absolute; inset: 0; border-radius: 12px; background: var(--line); transition: background .15s; }
+  .switch span::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: var(--bone); transition: transform .15s; }
+  .switch input:checked + span { background: var(--ember-d); }
+  .switch input:checked + span::after { transform: translateX(18px); background: #fff3dc; }
+  .switch input:focus-visible + span, button:focus-visible, select:focus-visible, input[type=range]:focus-visible { outline: 2px solid var(--ember); outline-offset: 2px; }
+  button { font: inherit; cursor: pointer; border-radius: 10px; border: 1px solid var(--line); background: var(--panel); color: var(--bone); padding: 8px 12px; }
+  button:hover { border-color: var(--muted); }
+  #snap { width: 100%; margin: 4px 0 6px; padding: 12px; font-size: 15px; font-weight: 700; color: var(--ink); border: 0;
+          background: linear-gradient(180deg, #f0bb5c, var(--ember)); }
+  #snap:active { transform: translateY(1px); }
+  #snap kbd { font: 12px ui-monospace, Menlo, monospace; font-weight: 500; opacity: .75; margin-left: 6px; }
+  #status { margin: 12px 0 0; padding: 10px 12px; border-radius: 10px; background: var(--panel); color: var(--muted); font-size: 12px; }
+  #status.bad { color: #ffb4a2; }
+  #status.ok { color: var(--bone); }
+  #thumb { width: 56px; height: 32px; object-fit: cover; border-radius: 6px; border: 1px solid var(--line); }
+  .foot { margin-top: 10px; color: var(--muted); font-size: 11px; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>There he goes</h1>
+  <p class="sub">Snap on camera. You turn to dust and your mic mutes.</p>
+
+  <div class="row" style="border-top:0;padding-top:0">
+    <div><label class="t" for="enabled">Enabled</label><div class="hint">Applies to your next camera start</div></div>
+    <label class="switch"><input id="enabled" type="checkbox"><span></span></label>
+  </div>
+
+  <button id="snap" type="button">Snap now<kbd id="kbd"></kbd></button>
+
+  <div class="row col">
+    <div class="head"><label class="t" for="sensitivity">Snap sensitivity</label><output id="o-sens"></output></div>
+    <input id="sensitivity" type="range" min="1" max="10" step="1">
+    <div class="hint">Higher catches more snaps, and more false ones.</div>
+  </div>
+
+  <div class="row col">
+    <div class="head"><label class="t" for="duration">Dust duration</label><output id="o-dur"></output></div>
+    <input id="duration" type="range" min="1" max="6" step="0.5">
+  </div>
+
+  <div class="row">
+    <label class="t" for="direction">Dust direction</label>
+    <select id="direction">
+      <option value="right">Blow right</option>
+      <option value="left">Blow left</option>
+      <option value="up">Rise up</option>
+      <option value="down">Fall down</option>
+      <option value="burst">Scatter outward</option>
+    </select>
+  </div>
+
+  <div class="row">
+    <div><label class="t" for="aiFill">AI room fill</label><div class="hint">Needs the optional model from setup</div></div>
+    <label class="switch"><input id="aiFill" type="checkbox"><span></span></label>
+  </div>
+
+  <div class="row">
+    <div><label class="t" for="vSign">V-sign trigger</label><div class="hint">Hold a peace sign for 0.7 s. Steadier than a snap.</div></div>
+    <label class="switch"><input id="vSign" type="checkbox"><span></span></label>
+  </div>
+
+  <div class="row">
+    <div><label class="t" for="autoPhoto">Auto-capture room</label><div class="hint">Photographs the empty room when you step out of frame</div></div>
+    <label class="switch"><input id="autoPhoto" type="checkbox"><span></span></label>
+  </div>
+
+  <div class="row col">
+    <div class="head"><span class="t">Empty-room photo</span><img id="thumb" alt="" hidden></div>
+    <div class="hint">Best result: take a photo of your room with you out of frame. When you turn to dust, the call sees that photo.</div>
+    <div style="display:flex;gap:8px;margin-top:8px"><button id="capture" type="button" style="flex:1">Capture empty room</button><button id="clearroom" type="button">Clear</button></div>
+  </div>
+
+  <div class="row" style="padding-bottom:0">
+    <div><span class="t" style="font-weight:600">Background</span><div class="hint">Re-learn if you moved the camera</div></div>
+    <button id="relearn" type="button">Relearn</button>
+  </div>
+
+  <p id="status">Checking this tab…</p>
+  <p class="foot">Everything runs on this computer. No video leaves it.</p>
+</main>
+<script src="popup.js"></script>
+</body>
+</html>

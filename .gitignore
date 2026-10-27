@@ -1,0 +1,14 @@
+# Downloaded by `node setup.mjs` (large; never commit)
+lib/*
+models/*
+!lib/.gitkeep
+!models/.gitkeep
+
+# Build output / OS / editor
+dist/
+node_modules/
+*.part
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
