@@ -58,17 +58,4 @@ The badge in the bottom-left of the call page names the stage that failed, and t
 
 Edit files, then click reload on the extension card and refresh the call tab. CI (`.github/workflows/ci.yml`) runs the checks on every push.
 
-## Publishing to GitHub
 
-    git init
-    git add .
-    git commit -m "There he goes 1.1.0"
-    git branch -M main
-    git remote add origin https://github.com/<you>/there-he-goes.git
-    git push -u origin main
-
-The model files are git-ignored on purpose (they are large and have their own licenses). See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
-
-## License
-
-MIT, see [LICENSE](LICENSE).
